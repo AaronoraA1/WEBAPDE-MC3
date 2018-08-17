@@ -1,0 +1,72 @@
+  #loginForm {
+  	margin: auto;
+  	text-align: center;
+  	align-items: center;
+  }
+  .logininput {
+  	margin-top: 2%;
+  	margin-bottom: 2%;
+  }
+  .memesidebar {
+  	z-index: 1;
+  	position: absolute;
+  	width:0;
+  	height: 100%;
+  	overflow-y: hidden;
+  	transition-duration: 1s;
+  	background-color: #343a40;
+  	color: black;
+    overflow: hidden;
+  }
+
+.togglesidebar{
+    width:inherit;
+}
+
+  #main-content {
+  	width: 100%;
+  	position: absolute;
+  	padding: 15px;
+  	transition-duration: 1s;
+  }
+  .wrapper .toggledsidebar .memesidebar {
+  	width: 100%;
+    height:50px;
+  }
+  .memeSpans {
+  	display: flex;
+  	flex-direction: column;
+  	margin-top: 3%;
+  	margin-bottom 3%;
+  	font-weight: bold;
+  	font-family: sans-serif;
+    
+  }
+  .memeHeader {
+  	width: inherit;
+  	height: auto;
+  	display: flex;
+  	padding: 3px 3px 3px 3px;
+  	flex-direction: row;
+  	border-bottom-width: 2px;
+  	border-bottom-style: solid;
+/*  	background-color: #343a40;*/
+  }
+  .nameSpan {
+  	width: 70%;
+/*  	margin: auto;*/
+  	padding: 3px 3px 3px 3px;
+  }
+  .dateSpan {
+  	width: 30%;
+  	margin: auto;
+  	text-align: right;
+  }
+  .memeFooter {
+    margin:auto;
+  	width: 100%;
+  	height: auto;
+  	display: flex;
+  	flex-direction: row;
+/*  	background-color: #343a40;*/
+  }
