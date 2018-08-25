@@ -101,10 +101,16 @@ app.get("/profile", urlencoder, (req,res) =>{
 
     
 
-    res.render("profile.hbs", {
+    res.render("index.hbs", {
         username: currentUserName.username
     })  
 })
+
+app.get("/profilePage", urlencoder, (req,res) =>{
+    res.render("profile.hbs", {
+        username: currentUserName.username
+    })
+} ) 
 
 app.post("/delete" , urlencoder, (req,res)=>{
     console.log("we gon delete boys")

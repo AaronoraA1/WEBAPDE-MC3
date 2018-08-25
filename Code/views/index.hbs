@@ -29,29 +29,69 @@
 		<!-- NAVBAR -->
 
 
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="padding-right:50px">
 			<div class="container-fluid">
 				<!-- LOGO -->
-				<a class="navbar-brand" href="/"><img class="rounded" height="65" src="../css/title-whitebackground.png" width="200"></a> <!-- NAVBAR ITEMS -->
-
-
+                
+                
+                <div class="form-inline">
+				<a class="navbar-brand" href="/"><img class="rounded" height="65" src="../css/title-whitebackground.png" width="200"></a> 
+                <!-- NAVBAR ITEMS -->
+                    
+                <form action="search" class="form-inline" method="post">
+                    <div class="input-group mb-3" style="padding-top: 6%">
+                        <input type="text" class="form-control" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                        <button class="btn btn-light" type="submit" id="button-addon2">Search</button>
+                        </div>
+                    </div>
+				</form>
+                </div>
+                
+                
+                
+                
+				
+                <div class="form-inline">
+                {{#if username}}
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">    
+                    <a class= "nav-item nav-link" href="profilePage"><img style="border-radius: 50%" height="30" src="../css/shrek.jpg" width="35"></a>
+                        <a class="nav-item nav-link" href="#">{{username}}</a> 
+                            
+                            
+                     <a class="nav-item nav-link active" href="#" style="border-left: 1px solid #212529">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>  
+                            
+                            
+                            
+                        </div>
+                        <div class="dropdown" style="padding-left: 4px" >
+                              <a class="nav-item nav-link-active dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a class="dropdown-item" href ="logout" id="logoutbutton" >Logout</a>
+                              </div>
+                            </div>
+                    </div>
+                    
+                    
+                            
+                    
+                {{else}}
+                <span class='navbar-text text-light' style="padding-left: 10%; width:170px;">Welcome, Guest</span>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#loginModal" data-toggle="modal" id="loginbutton">Login</a> <a class="nav-item nav-link" data-target="#registerModal" data-toggle="modal" id="registerbutton">Register</a>
+						<a class="nav-item nav-link active" href="#" style="border-left: 1px solid #212529">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#loginModal" data-toggle="modal" id="loginbutton">Login</a> <a class="nav-item nav-link" data-target="#registerModal" data-toggle="modal" id="registerbutton">Register</a>
 					</div>
 				</div>
+                {{/if}}
+                </div>
 				<!-- WELCOME, "username" -->
-
-
-				<div class="form-inline">
-					<span class='navbar-text' style="padding-left: 10%; width:170px;">Welcome, Guest</span>
-				</div>
+				
 				<!-- SEARCH BAR -->
 
 
-				<form action="search" class="form-inline" method="post">
-					<input aria-label="Search" class="form-control mr-sm-2" name="search" placeholder="Search" type="search"> <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-				</form>
+				
 			</div>
 		</nav>
 		<!-- MAIN CONTENT -->
@@ -215,8 +255,6 @@
 			</div>
 		</div>
 		<!-- NEW REGISTER MODAL -->
-
-
 		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="registerModal" role="dialog" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content bg-dark border border-dark">
@@ -243,12 +281,43 @@
 								<input name="password" placeholder="password" style="width:100%" type="password">
 							</div>
 							<span id="registerbuttons"></span>
-
 							<div class="modal-footer border border-dark">
 								<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button> <input class="btn btn-primary" type="submit" value="Register!">
 							</div>
 						</form>
 					</div>
+				</div>
+			</div>
+		</div>
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content bg-dark border border-dark">
+                    <div class="modal-header border border-dark ">
+						<h2 class="modal-title text-white" id="exampleModalCenterTitle">UPLOAD LE MEME</h2>
+						<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" style="color:white">&times;</span></button>
+					</div>
+                    
+					<div class="modal-body"> 
+                    <form id="uploadForm" action = "upload" name="upload" method= "POST">
+                        <input type="hidden" value="{{username}}" name="username">
+                        <div class="seperator">
+                            <input placeholder="title" type ="text" name = "title" style="width:80%"> 
+                        </div>
+                        <div class="seperator" style="margin-top:3% ">
+                            <input placeholder="url" type="text" name="url" style="width:80%">
+                        </div> 
+                        <div class="seperator" style="margin-top:3% ">
+                            <input placeholder="tags" type="text" name="tags" style="width:80%">
+                        </div> 
+                        <div class="modal-footer border border-dark">
+                             <input  type="submit" class="btn btn-light" value="upload">
+
+                        </div>
+                    
+					</form>
+                        
+					</div>
+
 				</div>
 			</div>
 		</div>
