@@ -12,6 +12,7 @@ const{User} = require(("./model/user.js"))
 const session = require("express-session")
 const cookieparser = require("cookie-parser")
 const multer = require("multer")
+const fs = require("fs")
  
 
 
@@ -152,11 +153,14 @@ app.post("/edit" , urlencoder, (req,res)=>{
          
 app.post("/upload", upload.single("url"),urlencoder, (req,res) =>{
     
-    var title = req.body.title
-    var url = req.file.filename
-    var id = Math.floor((Math.random() * 50) + 1);
+//    var title = req.body.title
+//    var url = req.file.filename
+//    var id = Math.floor((Math.random() * 50) + 1);
     
-    var newPost = new Post({id, title, url})
+    var newPost = new Post({
+        title:req.body.title,  
+        url: req.file.filename,
+        originalFileName: req.file.originalname})
    
     newPost.author = req.session.user.username
 
@@ -176,6 +180,19 @@ app.post("/upload", upload.single("url"),urlencoder, (req,res) =>{
      res.redirect("/")
     
 })
+
+
+app.get("/photo/:id", (req, res)=>{
+  console.log(req.params.id)
+  Post.findOne({_id: req.params.id}).then((doc)=>{
+    console.log(doc.url)
+    fs.createReadStream(path.resolve(UPLOAD_PATH, doc.url)).pipe(res)
+  }, (err)=>{
+    console.log(err)
+    res.sendStatus(404)
+  })
+})
+
 
 //app.get("/photo/:id", (req, res)=>{
 //  console.log(req.params.id)

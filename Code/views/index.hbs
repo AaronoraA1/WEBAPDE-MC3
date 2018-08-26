@@ -104,7 +104,8 @@
 						<div class="col-sm-3">
 							<div class="memesidebar" data-id="{{id}}">
 								<div class="sidebar-nav">
-									<h1>dis meme</h1>
+									<h1>KILL ME</h1>
+
 								</div>
 							</div>
 						</div>
@@ -125,7 +126,7 @@
 
 
 										<div class="imgContainer">
-											<span class="img" id="meme1"><img height="100%" src="{{url}}" width="100%"></span>
+											<span class="img" id="meme1"><img height="100%" src="/photo/{{id}}" width="100%"></span>
 										</div>
 
 
@@ -304,7 +305,7 @@
 					</div>
                     
 					<div class="modal-body"> 
-                    <form id="uploadForm" action = "upload" name="upload" method= "POST">
+                    <form id="uploadForm" action = "upload" name="upload" method= "POST" enctype="multipart/form-data">
                         <input type="hidden" value="{{username}}" name="username">
                         <div class="seperator">
                             <input placeholder="title" type ="text" name = "title" id="title" style="width:80%"> 

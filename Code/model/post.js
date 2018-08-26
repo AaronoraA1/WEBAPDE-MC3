@@ -46,10 +46,6 @@ var userSchema = mongoose.Schema({
 
 var postSchema = mongoose.Schema({
     
-    id:{
-        type: String
-    },
-    
     title: {
         type : String,
         required : true
@@ -62,6 +58,9 @@ var postSchema = mongoose.Schema({
     url: {
         type : String,
         required : true
+    },
+    originalFileName:{
+        type: String
     },
     author : {
         type: Array,
