@@ -56,8 +56,8 @@
                 {{#if username}}
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">    
-                    <a class= "nav-item nav-link" href="profilePage"><img style="border-radius: 50%" height="30" src="../css/shrek.jpg" width="35"></a>
-                        <a class="nav-item nav-link" href="#">{{username}}</a> 
+                    <a class= "nav-item nav-link" href="profile"><img style="border-radius: 50%" height="30" src="../css/shrek.jpg" width="35"></a>
+                        <a class="nav-item nav-link" href="profile">{{username}}</a> 
                             
                             
                      <a class="nav-item nav-link active" href="#" style="border-left: 1px solid #212529">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>  
@@ -98,10 +98,11 @@
 
         <div class = "wrapper" >
 		<div id="main-content" >
+            {{#each posts}}
 				<div class="container-fluid">
 					<div class="row align-self-start">
 						<div class="col-sm-3">
-							<div class="memesidebar" data-id="123">
+							<div class="memesidebar" data-id="{{id}}">
 								<div class="sidebar-nav">
 									<h1>dis meme</h1>
 								</div>
@@ -110,42 +111,40 @@
 
 
 						<div class="col-md-6">
-							<div class="meme" data-id="123">
+							<div class="meme" data-id="{{id}}">
 								<div class="post">
 									<div class="memeSpans">
 										<div class="memeHeader">
-											<h3><span class="nameSpan">When you are late for the deadline but you are friends with the professor</span>
+											<h3><span class="nameSpan">{{title}}</span>
 											</h3>
 											<span class="dateSpan"></span>
 
-											<h4><span class="dateSpan">7/13/18</span>
+											<h4><span class="dateSpan">{{date}}</span>
 											</h4>
 										</div>
 
 
 										<div class="imgContainer">
-											<span class="img" id="meme1"><img height="100%" src="../css/simulations.jpg" width="100%"></span>
+											<span class="img" id="meme1"><img height="100%" src="{{url}}" width="100%"></span>
 										</div>
 
 
 										<div class="memeFooter">
 											<span class="tagSpan"></span>
 
-											<h5><span class="tagSpan">#filipino #bakit</span>
+											<h5><span class="tagSpan">{{tags}}</span>
 											</h5>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
-
-						<div class="col-sm-3">
-						</div>
+                        {{/each}}
 					</div>
 				</div>
 
             
+<!--
 					<div class="row align-self-start">
 						<div class="col-sm-3">
 							<div class="memesidebar">
@@ -190,10 +189,12 @@
 						</div>
 					</div>
 				</div>
+-->
 			</div>
         </div>
 		<!--   MODALS!  -->
 		<!-- POST MODAL -->
+<!--
 
 		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="exampleModalCenter" role="dialog" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered" role="document">
@@ -217,6 +218,7 @@
 				</div>
 			</div>
 		</div>
+-->
 		<!-- LOGIN MODAL -->
 
 		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="loginModal" role="dialog" tabindex="-1">
@@ -254,6 +256,7 @@
 				</div>
 			</div>
 		</div>
+        
 		<!-- NEW REGISTER MODAL -->
 		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="registerModal" role="dialog" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered" role="document">
@@ -289,6 +292,9 @@
 				</div>
 			</div>
 		</div>
+        
+        <!--UPLOAD MODAL-->
+        
         <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content bg-dark border border-dark">
@@ -301,10 +307,10 @@
                     <form id="uploadForm" action = "upload" name="upload" method= "POST">
                         <input type="hidden" value="{{username}}" name="username">
                         <div class="seperator">
-                            <input placeholder="title" type ="text" name = "title" style="width:80%"> 
+                            <input placeholder="title" type ="text" name = "title" id="title" style="width:80%"> 
                         </div>
                         <div class="seperator" style="margin-top:3% ">
-                            <input placeholder="url" type="text" name="url" style="width:80%">
+                            <input  type="file" name="url" id= "url" style="width:80%" accept="img/jpeg , img/png">
                         </div> 
                         <div class="seperator" style="margin-top:3% ">
                             <input placeholder="tags" type="text" name="tags" style="width:80%">
@@ -313,7 +319,6 @@
                              <input  type="submit" class="btn btn-light" value="upload">
 
                         </div>
-                    
 					</form>
                         
 					</div>

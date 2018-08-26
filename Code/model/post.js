@@ -46,9 +46,17 @@ var userSchema = mongoose.Schema({
 
 var postSchema = mongoose.Schema({
     
-    title : {
+    id:{
+        type: String
+    },
+    
+    title: {
         type : String,
         required : true
+    },
+    
+    date:{
+        type: String
     },
     
     url: {

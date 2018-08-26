@@ -9,6 +9,9 @@ const crypto = require("crypto")
 const{Tag} = require(("./model/tag.js"))
 const{Post} = require(("./model/post.js"))
 const{User} = require(("./model/user.js"))
+const session = require("express-session")
+const cookieparser = require("cookie-parser")
+const multer = require("multer")
  
 
 
@@ -21,8 +24,14 @@ const urlencoder = bodyparser.urlencoded({
 })
 
 
-var currentUserName;
-
+const UPLOAD_PATH = path.resolve(__dirname, "uploads")
+const upload = multer({
+  dest: UPLOAD_PATH,
+  limits: {
+    fileSize : 10000000,
+    files : 2
+  }
+})
 
 mongoose.Promise = global.Promise
 mongoose.connect ("mongodb://localhost:27017/Memes",{
@@ -33,80 +42,50 @@ app.use(express.static(__dirname+'/public'));
 
 
 
+app.use(session({
+    secret: "secret",
+    name: "user",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000*60*60*24*7*3
+    }
+}))
+
+app.use(cookieparser())
+
+
 /* ROUTES */
 app.get("/" , urlencoder, (req,res) =>{
     
     console.log("-------------------------------------------------------------")
-    
-    var i
-    User.find().then((user)=>{
-     console.log("----USER----")
-        console.log(user)
-  
-    }, (err)=>{
-        console.log("could not find user")
-    })
-    
-    Post.find().then((post)=>{
-        console.log("----POST----")
-        console.log(post)
+    if(req.session.user){
+        Post.find().then((post)=>{
+       res.render("index.hbs", {
+           username: req.session.user.username,
+           posts: post
+       })
+   }, ()=>{
+            console.log("User does not exist")
+        }) 
+    }
+    else{
+         Post.find().then((post)=>{
+        res.render("index.hbs", {
+           posts: post
+       })
+    }, ()=>{
+            console.log("Error")
+        }) 
+    }
 
-    }, (err)=>{
-        console.log("could not find user")
-    })
-    
-    Tag.find().then((tag)=>{
-        console.log("----TAG----")
-        console.log(tag)
-
-    }, (err)=>{
-        console.log("could not find user")
-    })
-
-        console.log("-------------------------------------------------------------")
-
-    
-    
-   res.render("index.hbs")
 })
 
-app.get("/profile", urlencoder, (req,res) =>{    
-    console.log("-------------------------------------------------------------")
-    var i
-    User.find().then((user)=>{
-  
-        console.log("----USER----")
-        console.log(user)
 
-    }, (err)=>{
-        console.log("could not find user")
-    })
+app.get("/profile", urlencoder, (req,res) =>{
     
-    Post.find().then((post)=>{
-        console.log("----POST----")
-        console.log(post)
-    }, (err)=>{
-        console.log("could not find user")
-    })
+    currentUserName = req.session.user
     
-    Tag.find().then((tag)=>{
-        console.log("----TAG----")
-        console.log(tag)
-
-    }, (err)=>{
-        console.log("could not find user")
-    })
-
- console.log("-------------------------------------------------------------")
-
-    
-
-    res.render("index.hbs", {
-        username: currentUserName.username
-    })  
-})
-
-app.get("/profilePage", urlencoder, (req,res) =>{
     res.render("profile.hbs", {
         username: currentUserName.username
     })
@@ -171,23 +150,18 @@ app.post("/edit" , urlencoder, (req,res)=>{
     res.redirect("/profile")
 })
          
-app.post("/upload", urlencoder, (req,res) =>{
+app.post("/upload", upload.single("url"),urlencoder, (req,res) =>{
     
     var title = req.body.title
-    var url = req.body.url
+    var url = req.file.filename
+    var id = Math.floor((Math.random() * 50) + 1);
     
-   var userThis = req.body.username
-   //var newtags[] = req.body.tags.split("#")
-    
-    
-    
-    var newPost = new Post({title, url})
+    var newPost = new Post({id, title, url})
    
-    newPost.author = currentUserName
+    newPost.author = req.session.user.username
 
 
-    User.findOne({username : currentUserName.username}).then((user)=>{
-        //console.log("FUCK YOU" + user)
+    User.findOne({username : req.session.user.username}).then((user)=>{
         user.post.push(newPost)
         user.save(user)
     }, (err)=>{
@@ -196,12 +170,22 @@ app.post("/upload", urlencoder, (req,res) =>{
   
     newPost.save().then((post)=>{
     }), (err)=>{
-        console.log("MALIII")
+        console.log("Error when saving the post")
     }
 
-     res.redirect("/profile")
+     res.redirect("/")
     
 })
+
+//app.get("/photo/:id", (req, res)=>{
+//  console.log(req.params.id)
+//  Post.findOne({_id: req.params.id}).then((doc)=>{
+//    fs.createReadStream(path.resolve(UPLOAD_PATH, doc.filename)).pipe(res)
+//  }, (err)=>{
+//    console.log(err)
+//    res.sendStatus(404)
+//  })
+//})
 
 app.post("/search", urlencoder, (req,res) =>{
     
@@ -240,8 +224,8 @@ app.post("/register", urlencoder, (req,res) =>{
     
     newUser.save().then((user)=>{
         console.log( user.username + "Logged")
-        currentUserName = user
-        res.redirect("/profile")
+        req.session.user = user
+        res.redirect("/")
     }), (err)=>{
         console.log("MALIII")
         
@@ -255,9 +239,11 @@ app.post("/login", urlencoder, (req,res) => {
 
     console.log("login")
     User.findOne({username : userName}).then((user)=>{
-       currentUserName = user
-       console.log("YA BOI's USERNAME " + currentUserName.username)
-       res.redirect("/profile")
+        
+       req.session.user = user
+       console.log("YA BOI's USERNAME " + user.username)
+       res.redirect("/")
+        
     }, (err)=>{
         console.log("could not find user")
         res.redirect("/")
@@ -265,8 +251,13 @@ app.post("/login", urlencoder, (req,res) => {
 })
 
 app.get("/logout", urlencoder, (req,res) => {
-    console.log( currentUserName+ " has logged out")
-    currentUserName = null;
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log("Succesfully destroyed session")
+        }
+    });
     res.redirect("/")
     
 })
