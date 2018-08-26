@@ -29,18 +29,18 @@
 		<!-- NAVBAR -->
 
 
-		<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="padding-right:50px">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top" style="padding-right:50px">
 			<div class="container-fluid">
 				<!-- LOGO -->
                 
                 
                 <div class="form-inline">
 				<a class="navbar-brand" href="/"><img class="rounded" height="65" src="../css/title-whitebackground.png" width="200"></a> 
+                
                 <!-- NAVBAR ITEMS -->
-                    
-                <form action="search" class="form-inline" method="post">
+                <form action="search" class="form-inline" method="POST">
                     <div class="input-group mb-3" style="padding-top: 6%">
-                        <input type="text" class="form-control" aria-describedby="button-addon2">
+                        <input class="form-control" aria-describedby="button-addon2" type="search" name="search">
                         <div class="input-group-append">
                         <button class="btn btn-light" type="submit" id="button-addon2">Search</button>
                         </div>
@@ -101,17 +101,27 @@
             {{#each posts}}
 				<div class="container-fluid">
 					<div class="row align-self-start">
+                        
+                        
 						<div class="col-sm-3">
 							<div class="memesidebar" data-id="{{id}}">
+                                
 								<div class="sidebar-nav">
-									<h1>KILL ME</h1>
-
+                                    <div class = "sidebarTitle">
+									   <h2>MEMEscription</h2>
+                                        <hr>
+                                    </div>
+                                    <div class = "sidebarDescription">
+                                        {{description}}
+                                    </div>
+                                    <hr>
+                                    <h4>@{{author}}</h4>
 								</div>
 							</div>
 						</div>
-
-
-						<div class="col-md-6">
+                        
+                        
+						<div class="col-md-6" style= "padding-bottom: 5%">
 							<div class="meme" data-id="{{id}}">
 								<div class="post">
 									<div class="memeSpans">
@@ -120,77 +130,31 @@
 											</h3>
 											<span class="dateSpan"></span>
 
-											<h4><span class="dateSpan">{{date}}</span>
-											</h4>
+											<h6><span class="dateSpan">{{date}}</span>
+											</h6>
 										</div>
-
-
-										<div class="imgContainer">
-											<span class="img" id="meme1"><img height="100%" src="/photo/{{id}}" width="100%"></span>
+                                        
+                                        <div class="imgContainer">
+											<span class="img" id="meme1"><img height="100%" width="100%" src="/photo/{{id}}" ></span>
 										</div>
 
 
 										<div class="memeFooter">
 											<span class="tagSpan"></span>
-
-											<h5><span class="tagSpan">{{tags}}</span>
+                                            
+											<h5><span class="tagSpan">{{#each tags}}#{{this}} {{/each}}</span>
+                                            
 											</h5>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+                        
                         {{/each}}
 					</div>
 				</div>
-
-            
-<!--
-					<div class="row align-self-start">
-						<div class="col-sm-3">
-							<div class="memesidebar">
-								<div class="sidebar-nav">
-									<h1>dis meme</h1>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="col-md-6">
-							<div class="meme">
-								<div class="post">
-									<div class="memeSpans">
-										<div class="memeHeader">
-											<h3><span class="nameSpan">When you are late for the deadline but you are friends with the professor</span>
-											</h3>
-											<span class="dateSpan"></span>
-
-											<h4><span class="dateSpan">7/13/18</span>
-											</h4>
-										</div>
-
-
-										<div class="imgContainer">
-											<span class="img" id="meme1"><img height="100%" src="../css/simulations.jpg" width="100%"></span>
-										</div>
-
-
-										<div class="memeFooter">
-											<span class="tagSpan"></span>
-
-											<h5><span class="tagSpan">#filipino #bakit</span>
-											</h5>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-						<div class="col-sm-3">
-						</div>
-					</div>
-				</div>
--->
+            <hr>
 			</div>
         </div>
 		<!--   MODALS!  -->
@@ -220,82 +184,133 @@
 			</div>
 		</div>
 -->
-		<!-- LOGIN MODAL -->
-
-		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="loginModal" role="dialog" tabindex="-1">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content bg-dark border border-dark">
-					<div class="modal-header border border-dark">
-						<h2 class="modal-title text-white" id="exampleModalLabel">LOG IN</h2>
-						<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true" style="color:white">&times;</span></button>
-					</div>
-
-
-					<div class="modal-body">
-						<form action="login" id="loginForm" method="post" name="login">
-							<h5 class="text-white text-left" id="exampleModalLabel">Username</h5>
-
-
-							<div class="seperator">
-								<input name="username" placeholder="username" style="width:100%" type="text">
-							</div>
-
-
-							<h5 class="text-white text-left" id="exampleModalLabel">Password</h5>
-
-
-							<div class="seperator" style="margin-top:0%">
-								<input name="password" placeholder="password" style="width:100%" type="password">
-							</div>
-							<span id="registerbuttons"></span>
-
-							<div class="modal-footer border border-dark">
-								<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button> <input class="btn btn-primary" type="submit" value="Log In!">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- LOGIN MODAL --> 
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="loginModal" role="dialog" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center bg-light">
+          <h4 class="modal-title w-100 font-weight-bold text-center">Log In</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+          <form action="login" id="loginForm" method="post" name="login">   
+        <div class="modal-body bg-light border-dark m-0">
+         
+          <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
+            <input type="text"  name="username" class="form-control validate"> </div>
+          <div class="md-form mb-2">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
+            <input type="password" name="password" class="form-control validate"> </div>
+        </div>
+        <div class="modal-footer justify-content-center d-flex bg-light">
+          <button class="btn btn-block btn-dark" type ="submit">Login</button>
+        </div>
+          </form>
+      </div>
+    </div>
+  </div>
+        
         
 		<!-- NEW REGISTER MODAL -->
-		<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="registerModal" role="dialog" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content bg-dark border border-dark">
-					<div class="modal-header border border-dark">
-						<h2 class="modal-title text-white" id="exampleModalLabel">Register</h2>
-						<button aria-label="Close" class="close white" data-dismiss="modal" type="button"><span aria-hidden="true" style="color:white">&times;</span></button>
-					</div>
-
-
-					<div class="modal-body">
-						<form action="register" id="registerForm" method="post" name="register">
-							<h5 class="text-white text-left" id="exampleModalLabel">Username</h5>
-
-
-							<div class="seperator">
-								<input name="username" placeholder="username" style="width:100%" type="text">
-							</div>
-
-
-							<h5 class="text-white text-left" id="exampleModalLabel">Password</h5>
-
-
-							<div class="seperator" style="margin-top:0%">
-								<input name="password" placeholder="password" style="width:100%" type="password">
-							</div>
-							<span id="registerbuttons"></span>
-							<div class="modal-footer border border-dark">
-								<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button> <input class="btn btn-primary" type="submit" value="Register!">
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-        
+        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="registerModal" role="dialog" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center bg-light">
+          <h4 class="modal-title w-100 font-weight-bold text-center">Sign Up</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+          <form action="register" id="registerForm" method="post" name="register">   
+        <div class="modal-body bg-light border-dark m-0">
+         
+          <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
+            <input type="text"  name="username" class="form-control validate"> </div>
+          <div class="md-form mb-2">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
+            <input type="password" name="password" class="form-control validate"> </div>
+        </div>
+        <div class="modal-footer justify-content-center d-flex bg-light">
+          <button class="btn btn-block btn-dark" type ="submit">Sign Up</button>
+        </div>
+          </form>
+      </div>
+    </div>
+  </div>
+               
         <!--UPLOAD MODAL-->
         
+        
+        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="uploadModal" role="dialog" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center bg-light">
+          <h4 class="modal-title w-100 font-weight-bold text-center">Upload</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+          
+          <form action="upload" id="uploadForm" method="post" name="upload" enctype="multipart/form-data">   
+              
+              <input type="hidden" value="{{username}}" name="username">
+        <div class="modal-body bg-light border-dark m-0">
+         
+          <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Title</label>
+            <input type="text"  name="title" class="form-control validate"> 
+            </div>
+            <hr>
+          <div class="md-form mb-2">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-pass">Dank Meme</label>
+           <div class="seperator" style="margin-top:3% ">
+                <input  type="file" name="url" id= "url" style="width:80%" accept="img/jpeg , img/png">
+            </div>  
+            </div>
+            <hr>
+            
+            <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Description</label>
+                <textarea rows="3"name="description" class="form-control validate" style="height: 35%"> </textarea>
+            </div>
+            <hr>
+            
+            <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Tag</label>
+            <input type="text" placeholder="tag1,tag2,tag3" name="tags" class="form-control validate"> 
+            </div>
+            <hr>
+             <div class="md-form mb-2">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Private &nbsp; &nbsp;  </label>
+            <input type="checkbox" name="private" value="1"> 
+            </div>
+            <hr>
+            
+            
+        </div>
+        <div class="modal-footer justify-content-center d-flex bg-light">
+          <button class="btn btn-block btn-dark" type ="submit">Upload</button>
+        </div>
+          </form>
+          
+      </div>
+    </div>
+  </div>
+        
+        
+<!--
         <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content bg-dark border border-dark">
@@ -327,6 +342,7 @@
 				</div>
 			</div>
 		</div>
+-->
 	</div>
 </body>
 </html>

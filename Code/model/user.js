@@ -21,14 +21,25 @@ var tagSchema = mongoose.Schema({
 
 var postSchema = mongoose.Schema({
     
-    title : {
+    title: {
         type : String,
         required : true
+    },
+    
+    date:{
+        type: String
     },
     
     url: {
         type : String,
         required : true
+    },
+    originalFileName:{
+        type: String
+    },
+    author : {
+        type: Array,
+        items: userSchema
     },
     
     description:{
@@ -39,11 +50,6 @@ var postSchema = mongoose.Schema({
         type: Boolean,
     },
     
-    
-    author : {
-        type: Array,
-        items: userSchema
-    },
     tags: {
         type: Array,
         items: tagSchema

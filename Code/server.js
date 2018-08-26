@@ -13,11 +13,13 @@ const session = require("express-session")
 const cookieparser = require("cookie-parser")
 const multer = require("multer")
 const fs = require("fs")
+var moment = require('moment');
+
+
+
+
+moment().format();
  
-
-
-
-
 /* SETUP */
 const app = express()
 const urlencoder = bodyparser.urlencoded({
@@ -33,16 +35,7 @@ const upload = multer({
     files : 2
   }
 })
-
-mongoose.Promise = global.Promise
-mongoose.connect ("mongodb://localhost:27017/Memes",{
-     useNewUrlParser: true
-})
-app.set("view-engine", "hbs")
-app.use(express.static(__dirname+'/public'));
-
-
-
+app.use(bodyparser.json())
 app.use(session({
     secret: "secret",
     name: "user",
@@ -54,6 +47,12 @@ app.use(session({
 }))
 
 app.use(cookieparser())
+mongoose.Promise = global.Promise
+mongoose.connect ("mongodb://localhost:27017/Memes",{
+     useNewUrlParser: true
+})
+app.set("view-engine", "hbs")
+app.use(express.static(__dirname+'/public'));
 
 
 /* ROUTES */
@@ -156,11 +155,29 @@ app.post("/upload", upload.single("url"),urlencoder, (req,res) =>{
 //    var title = req.body.title
 //    var url = req.file.filename
 //    var id = Math.floor((Math.random() * 50) + 1);
+    var d = Date.now()
+    
+    var date = moment.duration(-(Date.now() - d), "days").humanize(true);
+    
+    var tags = req.body.tags.split(",")
+    
+    if(req.body.private == 1){
+        var val = true
+    }
+    else
+        var val = false
+    
     
     var newPost = new Post({
         title:req.body.title,  
         url: req.file.filename,
-        originalFileName: req.file.originalname})
+        originalFileName: req.file.originalname,
+        description: req.body.description,
+        privacy: val,
+        tags :tags,
+        date : date})
+    
+   
    
     newPost.author = req.session.user.username
 
@@ -183,7 +200,6 @@ app.post("/upload", upload.single("url"),urlencoder, (req,res) =>{
 
 
 app.get("/photo/:id", (req, res)=>{
-  console.log(req.params.id)
   Post.findOne({_id: req.params.id}).then((doc)=>{
     console.log(doc.url)
     fs.createReadStream(path.resolve(UPLOAD_PATH, doc.url)).pipe(res)
@@ -194,41 +210,98 @@ app.get("/photo/:id", (req, res)=>{
 })
 
 
-//app.get("/photo/:id", (req, res)=>{
-//  console.log(req.params.id)
-//  Post.findOne({_id: req.params.id}).then((doc)=>{
-//    fs.createReadStream(path.resolve(UPLOAD_PATH, doc.filename)).pipe(res)
-//  }, (err)=>{
-//    console.log(err)
-//    res.sendStatus(404)
-//  })
-//})
 
 app.post("/search", urlencoder, (req,res) =>{
     
     
     var queryPost = Post
     
-    
-    
-//    console.log("---------SEARCH BY USER----------")
-//    
-//    User.find().then((user)=>{
-//        user.post.findOne({title: req.body.search}).then((post)=>{
-//            console.log(post)  
-//        })
-//    }, (err)=>{
-//        console.log("could not find user")
-//    })
-    
     console.log("---------SEARCH BY TITLE----------")
-    Post.find({title: req.body.search}).then((post)=>{
-        console.log(post)
+    console.log(req.body.search)
+    Post.find({$or: [{title: req.body.search}, {author: req.body.search}, {tags: req.body.search}] }).then((post)=>{    
+        if(req.session.user){
+       res.render("index.hbs", {
+           username: req.session.user.username,
+           posts: post
+    })
+        }
+                  
+    else{
+        res.render("index.hbs", {
+           posts: post
+       }) 
+    }
+    
+        
     }, (err)=>{
         console.log("could not find user")
     })
     
 })
+    
+    
+    
+//    console.log("---------SEARCH BY USER----------")
+//        Post.find({author: req.body.search}).then((post)=>{
+//        console.log(post)    
+//       if(req.session.user){
+//       res.render("index.hbs", {
+//           username: req.session.user.username,
+//           posts: post
+//    })
+//        }
+//                  
+//    else{
+//        res.render("index.hbs", {
+//           posts: post
+//       }) 
+//    }
+//   
+//    console.log("---------SEARCH BY TAGS----------")
+//        Post.find({tags: req.body.search}).then((post)=>{
+//        console.log(post)    
+//       if(req.session.user){
+//       res.render("index.hbs", {
+//           username: req.session.user.username,
+//           posts: post
+//    })
+//        }
+//                  
+//    else{
+//        res.render("index.hbs", {
+//           posts: post
+//       }) 
+//    }
+//    
+//
+//    })
+//})
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    User.find({post:{title: req.body.search}}).then((post)=>{
+//        console.log(post)
+//       if(req.session.user){
+//       res.render("index.hbs", {
+//           username: req.session.user.username,
+//           posts: post
+//    })
+//        }
+//                  
+//    else{
+//        res.render("index.hbs", {
+//           posts: post
+//       }) 
+//    }
+//   
+//    
+//
+//    })
+//})
 
 app.post("/register", urlencoder, (req,res) =>{
     console.log("register")

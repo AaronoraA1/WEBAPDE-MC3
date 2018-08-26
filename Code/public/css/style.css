@@ -1,3 +1,4 @@
+/*
   #loginForm {
   	margin: auto;
   	text-align: center;
@@ -7,6 +8,7 @@
   	margin-top: 2%;
   	margin-bottom: 2%;
   }
+*/
   .memesidebar {
   	z-index: 1;
   	position: absolute;
@@ -14,20 +16,22 @@
   	height: 100%;
   	overflow-y: hidden;
   	transition-duration: 1s;
-  	background-color: #343a40;
+/*  	background-color: #343a40;*/
   	color: black;
     overflow: hidden;
+    
   }
 
 .togglesidebar{
-    width:inherit;
+    width:90%;
+    padding: 10% 10% 10% 10%
 }
 
   #main-content {
   	width: 100%;
   	position: absolute;
-  	padding: 15px;
-  	transition-duration: 1s;
+  	padding: 10px;
+  	transition-duration: 0.3s;
   }
   .wrapper .toggledsidebar .memesidebar {
   	width: 100%;
