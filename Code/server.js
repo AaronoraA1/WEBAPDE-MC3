@@ -62,7 +62,7 @@ app.get("/" , urlencoder, (req,res) =>{
     if(req.session.user){
         Post.find().then((post)=>{
        res.render("index.hbs", {
-           username: req.session.user.username,
+           user: req.session.user,
            posts: post
        })
    }, ()=>{
@@ -84,28 +84,25 @@ app.get("/" , urlencoder, (req,res) =>{
 
 app.get("/profile", urlencoder, (req,res) =>{
     
-    currentUserName = req.session.user
-    
-    res.render("profile.hbs", {
-        username: currentUserName.username
-    })
+
+    console.log("/PROFILE")
+     Post.find({author:req.session.user.username}).then((post)=>{
+       res.render("profile.hbs", {
+           user: req.session.user,
+           posts: post
+       })
+   }, ()=>{
+            console.log("User does not exist")
+        }) 
 } ) 
 
 app.post("/delete" , urlencoder, (req,res)=>{
     console.log("we gon delete boys")
     
     var Id = req.body.id 
-    
-    
-    var title = req.body.title
-    var url = req.body.url
-    
-    
-   var userThis = req.body.username
-    
-    
+        
    
-    User.findOne({username : currentUserName.username}).then((user)=>{
+    User.findOne({username : req.session.user.username}).then((user)=>{
         user.post.remove({_id: Id})
         user.save(user)
     }, (err)=>{
@@ -125,23 +122,32 @@ app.post("/edit" , urlencoder, (req,res)=>{
     console.log("/EDIT")
     
     
-    var newtitle = req.body.title
-    
-    var Id = req.body.id 
+    var tags = req.body.tags.split(",")
+
+     if(req.body.private == 1){
+        var val = true
+    }
+    else
+        var val = false
    
-    
     Post.findOne({_id : req.body.id }).then((post)=>{
         if(post){
-            post.title = newtitle
+            post.title = req.body.title
+            post.description = req.body.description
+            post.privacy = val
+            post.tags = tags
             post.save()
         }
     }, (err)=>{
         console.log("could not find user")
     })
     
-     User.findOne({username : currentUserName.username}).then((user)=>{
-        user.post.title = newtitle
-        user.save()
+     User.findOne({username : req.session.user.username}).then((user)=>{
+            User.post.title = req.body.title
+            User.post.description = req.body.description
+            User.post.privacy = val
+            User.post.tags = req.body.tags
+            User.post.save()
     }, (err)=>{
         console.log("could not find user")
     })
@@ -212,11 +218,8 @@ app.get("/photo/:id", (req, res)=>{
 
 
 app.post("/search", urlencoder, (req,res) =>{
-    
-    
     var queryPost = Post
     
-    console.log("---------SEARCH BY TITLE----------")
     console.log(req.body.search)
     Post.find({$or: [{title: req.body.search}, {author: req.body.search}, {tags: req.body.search}] }).then((post)=>{    
         if(req.session.user){
@@ -239,70 +242,6 @@ app.post("/search", urlencoder, (req,res) =>{
     
 })
     
-    
-    
-//    console.log("---------SEARCH BY USER----------")
-//        Post.find({author: req.body.search}).then((post)=>{
-//        console.log(post)    
-//       if(req.session.user){
-//       res.render("index.hbs", {
-//           username: req.session.user.username,
-//           posts: post
-//    })
-//        }
-//                  
-//    else{
-//        res.render("index.hbs", {
-//           posts: post
-//       }) 
-//    }
-//   
-//    console.log("---------SEARCH BY TAGS----------")
-//        Post.find({tags: req.body.search}).then((post)=>{
-//        console.log(post)    
-//       if(req.session.user){
-//       res.render("index.hbs", {
-//           username: req.session.user.username,
-//           posts: post
-//    })
-//        }
-//                  
-//    else{
-//        res.render("index.hbs", {
-//           posts: post
-//       }) 
-//    }
-//    
-//
-//    })
-//})
-//    
-//    
-//    
-//    
-//    
-//    
-//    
-//    User.find({post:{title: req.body.search}}).then((post)=>{
-//        console.log(post)
-//       if(req.session.user){
-//       res.render("index.hbs", {
-//           username: req.session.user.username,
-//           posts: post
-//    })
-//        }
-//                  
-//    else{
-//        res.render("index.hbs", {
-//           posts: post
-//       }) 
-//    }
-//   
-//    
-//
-//    })
-//})
-
 app.post("/register", urlencoder, (req,res) =>{
     console.log("register")
     var username = req.body.username

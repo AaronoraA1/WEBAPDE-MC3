@@ -52,7 +52,7 @@
   	display: flex;
   	padding: 3px 3px 3px 3px;
   	flex-direction: row;
-  	border-bottom-width: 2px;
+  	border-bottom-width: 1px;
   	border-bottom-style: solid;
 /*  	background-color: #343a40;*/
   }
@@ -62,7 +62,7 @@
   	padding: 3px 3px 3px 3px;
   }
   .dateSpan {
-  	width: 30%;
+  	width: 65%;
   	margin: auto;
   	text-align: right;
   }
