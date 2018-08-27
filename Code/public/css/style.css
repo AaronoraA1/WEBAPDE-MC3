@@ -19,12 +19,17 @@
 /*  	background-color: #343a40;*/
   	color: black;
     overflow: hidden;
+    padding-top:5%;
+    padding-bottom:10%;  
+    padding-left: 10%;
+    
     
   }
 
 .togglesidebar{
     width:90%;
-    padding: 10% 10% 10% 10%
+    padding-right: 10%;
+    
 }
 
   #main-content {

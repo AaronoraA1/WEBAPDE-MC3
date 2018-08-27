@@ -36,11 +36,11 @@
 					<!-- LOGO -->
 
 
-					<div class="form-inline">
+					<div class="form-inline sticky-top">
 						<a class="navbar-brand" href="/"><img class="rounded" height="65" src="../css/title-whitebackground.png" width="200"></a> <!-- NAVBAR ITEMS -->
 
 
-						<form action="search" class="form-inline" method="post">
+						<form action="post/searchProfile" class="form-inline" method="post">
 							<div class="input-group mb-3" style="padding-top: 6%">
 								<input aria-describedby="button-addon2" class="form-control" name="search" type="search">
 
@@ -55,7 +55,7 @@
 					<div class="form-inline">
 						<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 							<div class="navbar-nav">
-								<a class="nav-item nav-link" href="profile"><img height="30" src="../css/shrek.jpg" style="border-radius: 50%" width="35"></a> <a class="nav-item nav-link" href="profile">{{user.username}}</a> <a class="nav-item nav-link" href="#" style="border-left: 1px solid #212529">Home</a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>
+								<a class="nav-item nav-link" href="profile/profile"><img height="30" src="../css/shrek.jpg" style="border-radius: 50%" width="35"></a> <a class="nav-item nav-link" href="profile/profile">{{user.username}}</a> <a class="nav-item nav-link" href="/" style="border-left: 1px solid #212529">Home</a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>
 							</div>
 
 
@@ -63,7 +63,7 @@
 								<a aria-expanded="false" aria-haspopup="true" class="nav-item nav-link-active dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2"></a>
 
 								<div aria-labelledby="dropdownMenu2" class="dropdown-menu">
-									<a class="dropdown-item" href="logout" id="logoutbutton">Logout</a>
+									<a class="dropdown-item" href="user/logout" id="logoutbutton">Logout</a>
 								</div>
 							</div>
 						</div>
@@ -80,7 +80,7 @@
                     
                     <div class="jumbotron">
                       <div class="container">
-                        <h2 class="display-4"><img src="../css/shrek.jpg" style="border-radius: 50%"  width = "15%" height="15%" >&nbsp;&nbsp;&nbsp;Welcome back Meme Prince {{user.username}} </h2>
+                        <h2 class="display-4"><img src="../css/shrek.jpg" style="border-radius: 50%"  width = "15%" height="15%" >&nbsp;&nbsp;&nbsp;Welcome to your page, Lord {{user.username}} </h2>
                       </div>
                     </div>
                     
@@ -157,7 +157,7 @@
 								</div>
 
 
-								<form action="edit" id="editForm" method="post" name="edit">
+								<form action="post/edit" id="editForm" method="post" name="edit">
 									<input name="username" type="hidden" value="{{username}}" >
 									<input name="id" type="hidden" value="{{id}}">
 
@@ -208,7 +208,7 @@
                     
                        <div class="modal-footer justify-content-right d-flex bg-light">
                             <button class="btn btn-md btn-dark" aria-label="Close" class="close" data-dismiss="modal" type="button">&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;</button>
-                            <form action="delete" id="deleteForm" method="post" name="delete">
+                            <form action="post/delete" id="deleteForm" method="post" name="delete">
                                             <input name="id" type="hidden" value="{{id}}">
                             <button class="btn btn-md btn-danger" type="submit">&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;</button>
                                     
@@ -226,9 +226,7 @@
 					<hr>
 				</div>
 			</div>
-            
-            <!--EDITMODAL-->
-
+      
             
             
             {{/if}}
@@ -247,7 +245,7 @@
 					</div>
 
 
-					<form action="upload" enctype="multipart/form-data" id="uploadForm" method="post" name="upload">
+					<form action="post/upload" enctype="multipart/form-data" id="uploadForm" method="post" name="upload">
 						<input name="username" type="hidden" value="{{username}}">
 
 						<div class="modal-body bg-light border-dark m-0">

@@ -34,11 +34,11 @@
 				<!-- LOGO -->
 
 
-				<div class="form-inline">
+				<div class="form-inline sticky-top">
 					<a class="navbar-brand" href="/"><img class="rounded" height="65" src="../css/title-whitebackground.png" width="200"></a> <!-- NAVBAR ITEMS -->
 
 
-					<form action="search" class="form-inline" method="post">
+					<form action="post/searchIndex" class="form-inline" method="post">
 						<div class="input-group mb-3" style="padding-top: 6%">
 							<input aria-describedby="button-addon2" class="form-control" name="search" type="search">
 
@@ -55,7 +55,7 @@
 
 					<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 						<div class="navbar-nav">
-							<a class="nav-item nav-link" href="profile"><img height="30" src="../css/shrek.jpg" style="border-radius: 50%" width="35"></a> <a class="nav-item nav-link" href="profile">{{username}}</a> <a class="nav-item nav-link active" href="#" style="border-left: 1px solid #212529">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>
+							<a class="nav-item nav-link" href="profile"><img height="30" src="../css/shrek.jpg" style="border-radius: 50%" width="35"></a> <a class="nav-item nav-link" href="profile">{{user.username}}</a> <a class="nav-item nav-link active" href="/" style="border-left: 1px solid #212529">Home<span class="sr-only">(current)</span></a> <a class="nav-item nav-link" data-target="#uploadModal" data-toggle="modal" id="uploadbutton" style="border-right: 1px solid #212529">Upload a meme</a>
 						</div>
 
 
@@ -63,7 +63,7 @@
 							<a aria-expanded="false" aria-haspopup="true" class="nav-item nav-link-active dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2"></a>
 
 							<div aria-labelledby="dropdownMenu2" class="dropdown-menu">
-								<a class="dropdown-item" href="logout" id="logoutbutton">Logout</a>
+								<a class="dropdown-item" href="user/logout" id="logoutbutton">Logout</a>
 							</div>
 						</div>
 					</div>
@@ -165,7 +165,7 @@
 					</div>
 
 
-					<form action="login" id="loginForm" method="post" name="login">
+					<form action="user/login" id="loginForm" method="post" name="login">
 						<div class="modal-body bg-light border-dark m-0">
 							<div class="md-form mb-2">
 								<i class="fa fa-envelope prefix grey-text"></i> <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label> <input class="form-control validate" name="username" type="text">
@@ -197,7 +197,7 @@
 					</div>
 
 
-					<form action="register" id="registerForm" method="post" name="register">
+					<form action="user/register" id="registerForm" method="post" name="register">
 						<div class="modal-body bg-light border-dark m-0">
 							<div class="md-form mb-2">
 								<i class="fa fa-envelope prefix grey-text"></i> <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label> <input class="form-control validate" name="username" type="text">
@@ -218,8 +218,6 @@
 			</div>
 		</div>
 		<!--UPLOAD MODAL-->
-
-
 		<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -229,7 +227,7 @@
 					</div>
 
 
-					<form action="upload" enctype="multipart/form-data" id="uploadForm" method="post" name="upload">
+					<form action="post/upload" enctype="multipart/form-data" id="uploadForm" method="post" name="upload">
 						<input name="username" type="hidden" value="{{username}}">
 
 						<div class="modal-body bg-light border-dark m-0">
