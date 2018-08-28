@@ -40,7 +40,7 @@ router.post("/searchIndex", urlencoder, (req,res) =>{
     var queryPost = Post
     
     console.log(req.body.search)
-    Posts.find(req.body.search).then((post)=>{
+    Post.find(req.body.search).then((post)=>{
         res.render("index.hbs", {
            user: req.session.user,
            posts: post
@@ -56,9 +56,9 @@ router.post("/searchProfile", urlencoder, (req,res) =>{
     
     console.log(req.body.search)
         console.log(req.body.search)
-    Posts.find(req.body.search).then((post)=>{
+    Post.findProfile(req.body.search, req.session.user).then((post)=>{
        res.render("profile.hbs", {
-           username: req.session.user.username,
+           user: req.session.user.username,
            posts: post
     })
     }), (err)=>{

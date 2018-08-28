@@ -88,6 +88,7 @@ exports.find = function(find){
   return new Promise(function(resolve, reject){
       console.log("BRUH" + find)
       Post.find({$or: [{title: find}, {author: find}, {tags: find}] }).then((result)=>{
+      console.log("find output" + result)      
       resolve(result)
     }, (err)=>{
       reject(err)
@@ -95,28 +96,17 @@ exports.find = function(find){
   })
 }
 
-exports.findProfile = function(find){
+exports.findProfile = function(find, user){
   return new Promise(function(resolve, reject){
       console.log("BRUH" + find)
-      Post.find({$or: [{title: find},{tags: find}] }).then((result)=>{
+      Post.find({$and: [{author: user.username},{$or: [{title: find},{tags: find}] }]}).then((result)=>{
+      console.log("find output Profile" + result)
       resolve(result)
     }, (err)=>{
       reject(err)
     })
   })
 }
-
-exports.find = function(find){
-  return new Promise(function(resolve, reject){
-      console.log("BRUH" + find)
-      Post.find({$or: [{title: find}, {author: find}, {tags: find}] }).then((result)=>{
-      resolve(result)
-    }, (err)=>{
-      reject(err)
-    })
-  })
-}
-
 exports.delete = function(id){
   return new Promise(function(resolve, reject){
     Post.remove({

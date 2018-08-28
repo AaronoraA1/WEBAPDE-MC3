@@ -39,7 +39,7 @@ router.get("/" , urlencoder, (req,res) =>{
         Post.getAll().then((post)=>{
        res.render("index.hbs", {
            user: req.session.user,
-           posts: post
+           posts: post.reverse()
        })
    }, ()=>{
             console.log("User does not exist")
@@ -48,7 +48,7 @@ router.get("/" , urlencoder, (req,res) =>{
     else{
          Post.getAll().then((post)=>{
         res.render("index.hbs", {
-           posts: post
+           posts: post.reverse()
        })
     }, ()=>{
             console.log("Error")
@@ -62,7 +62,7 @@ router.get("/profile", urlencoder, (req,res) =>{
      Post.find(req.session.user.username).then((post)=>{
        res.render("profile.hbs", {
            user: req.session.user,
-           posts: post
+           posts: post.reverse()
        })
    }, ()=>{
             console.log("User does not exist")
